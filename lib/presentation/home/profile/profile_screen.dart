@@ -1,3 +1,4 @@
+import 'package:delivery_app/presentation/home/profile/darkmode/darkmode_screen.dart';
 import 'package:delivery_app/presentation/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -28,20 +29,28 @@ class ProfileScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(Default.padding),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const Text('Personal Information', textAlign: TextAlign.center),
-                    const SizedBox(height: 10),
-                    const Text('Mail'),
-                    const Text('Saratunner@gmail.com'),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text('Dark mode'),
-                        Switch(value: false, onChanged: (v){})
-                      ],
-                    ),
-                    
+                  children: const [
+                    Text('Personal Information', textAlign: TextAlign.center),
+                    SizedBox(height: 10),
+                    Text('Mail'),
+                    Text('Saratunner@gmail.com'),                    
                   ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Card(
+              child: InkWell(
+                onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (_) => const DarkModeScreen())),
+                child: Padding(
+                  padding: const EdgeInsets.all(Default.padding),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const [
+                      Text('Dark mode'),
+                      Icon(Icons.arrow_forward_ios)
+                    ],
+                  ),
                 ),
               ),
             )

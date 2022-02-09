@@ -5,7 +5,7 @@ class AppColors {
   static const purple = Color.fromRGBO(81, 23, 172, 1);
   static const green = Color.fromRGBO(32, 208, 196, 1);
   static const shadow = Color.fromRGBO(187, 187, 187, 1);
-  static const lightShadow = Color.fromRGBO(187, 187, 187, .4);
+  static const lightShadow = Color.fromRGBO(187, 187, 187, .2);
   static const white = Color.fromRGBO(255, 255, 255, 1);
   static const onSurface = Color.fromRGBO(48, 55, 72, 1);
 }
@@ -20,7 +20,15 @@ const appGradienst = [
   AppColors.green
 ];
 
-class AppTheme {  
+class AppTheme {
+
+  static final _defaultAppbarTheme = AppBarTheme(
+    centerTitle: true,
+    toolbarHeight: 70,
+    titleTextStyle: GoogleFonts.poppins().copyWith(fontWeight: FontWeight.w800, fontSize: 16),
+  );
+
+
   static final _defaultBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(Default.radius),
     borderSide:  const BorderSide(
@@ -30,16 +38,32 @@ class AppTheme {
     ),
   );
 
+  
+  static final _defaultCardTheme = CardTheme(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Default.radius)),
+      clipBehavior: Clip.antiAlias,
+      elevation: 4,
+  );
+
+  static const _pageTransitionsTheme = PageTransitionsTheme(
+    builders: {
+      TargetPlatform.iOS: ZoomPageTransitionsBuilder(),
+      TargetPlatform.android: ZoomPageTransitionsBuilder(),
+  });
+
 
 
   static final lightTheme = ThemeData(
     brightness: Brightness.light,
-    appBarTheme: AppBarTheme(
+    appBarTheme: _defaultAppbarTheme.copyWith(
       backgroundColor: AppColors.white,
-      centerTitle: true,
-      toolbarHeight: 70,
-      titleTextStyle: GoogleFonts.poppins().copyWith(color: AppColors.purple, fontWeight: FontWeight.w800, fontSize: 16),
-      shadowColor: AppColors.lightShadow
+      titleTextStyle: _defaultAppbarTheme.titleTextStyle?.copyWith(color: AppColors.purple),
+      shadowColor: AppColors.lightShadow,
+      iconTheme: const IconThemeData(color: AppColors.purple)
+    ),
+    colorScheme: ThemeData.light().colorScheme.copyWith(
+      primary: AppColors.purple,
+      secondary: AppColors.green
     ),
     textTheme: GoogleFonts.poppinsTextTheme().apply(
       bodyColor: AppColors.purple,
@@ -50,18 +74,23 @@ class AppTheme {
       enabledBorder: _defaultBorder.copyWith(borderSide: _defaultBorder.borderSide.copyWith(color: AppColors.lightShadow)),
       prefixIconColor: AppColors.purple,
     ),
+    cardTheme: _defaultCardTheme.copyWith(shadowColor: AppColors.lightShadow),
+    toggleableActiveColor: AppColors.purple,
+    disabledColor: AppColors.lightShadow,
+    pageTransitionsTheme: _pageTransitionsTheme
   );
 
 
   static final darkTheme = ThemeData(
     brightness: Brightness.dark,
-    appBarTheme: AppBarTheme(
+    appBarTheme: _defaultAppbarTheme.copyWith(
       backgroundColor: AppColors.purple,
-      centerTitle: true,
-      toolbarHeight: 70,
-      titleTextStyle: GoogleFonts.poppins().copyWith(fontWeight: FontWeight.w800, fontSize: 16)
     ),
     scaffoldBackgroundColor: Colors.black,
+    colorScheme: ThemeData.dark().colorScheme.copyWith(
+      primary: AppColors.purple,
+      secondary: AppColors.green
+    ),
     textTheme: GoogleFonts.poppinsTextTheme().apply(
       bodyColor: AppColors.green,
       displayColor: AppColors.green
@@ -76,6 +105,10 @@ class AppTheme {
         color: AppColors.white
       )
     ),
+    cardTheme:_defaultCardTheme.copyWith(color: AppColors.onSurface),
+    toggleableActiveColor: AppColors.green,
+    disabledColor: AppColors.shadow,
+    pageTransitionsTheme: _pageTransitionsTheme
   );
 
 }
