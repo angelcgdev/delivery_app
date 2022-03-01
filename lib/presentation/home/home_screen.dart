@@ -1,20 +1,14 @@
-import 'package:delivery_app/presentation/home/car/car_screen.dart';
+import 'package:delivery_app/presentation/home/cart/cart_screen.dart';
 import 'package:delivery_app/presentation/home/favorites/car_screen.dart';
+import 'package:delivery_app/presentation/home/home_controller.dart';
 import 'package:delivery_app/presentation/home/products/products_scrren.dart';
 import 'package:delivery_app/presentation/home/profile/profile_screen.dart';
 import 'package:delivery_app/presentation/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends GetWidget<HomeController> {
   const HomeScreen({Key? key}) : super(key: key);
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-
-  int currentindex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -22,28 +16,32 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Stack(
         children: [
           Positioned.fill(
-            child: IndexedStack(
-              index: currentindex,
-              children: const [
-                ProductsScreen(),
-                ProductsScreen(),
-                CarScreen(),
-                FavoritesScreen(),
-                ProfileScreen(),
-              ],
+            child: Obx(
+              ()=> IndexedStack(
+                index: controller.indexSelected.value,
+                children: [
+                  const ProductsScreen(),
+                  const ProductsScreen(),
+                  CartScreen(onShopping: (){
+                    controller.updateIndexSelected(0);
+                  }),
+                  const FavoritesScreen(),
+                  ProfileScreen(),
+                ],
+              ),
             ),
           ),
           Positioned(
             right: Default.padding,
             left: Default.padding,
             bottom: Default.padding,
-            child: DeliveryAppNavigationBar(
-              index: currentindex,
-              onIndexSelected: (index){
-                setState(() {
-                  currentindex = index;
-                });
-              },
+            child: Obx(
+              ()=> DeliveryAppNavigationBar(
+                index: controller.indexSelected.value,
+                onIndexSelected: (index){
+                  controller.updateIndexSelected(index);
+                },
+              ),
             ),
           )
         ],
@@ -53,16 +51,20 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class DeliveryAppNavigationBar extends StatelessWidget {
-  const DeliveryAppNavigationBar({Key? key, required this.index, required this.onIndexSelected}) : super(key: key);
+  DeliveryAppNavigationBar({Key? key, required this.index, required this.onIndexSelected}) : super(key: key);
 
   final int index;
   final void Function(int details) onIndexSelected;
-
+  final controller = Get.find<HomeController>();  
+  static const height = 75.0;
+  static  const heigthCartButton = 55;
+  static  const fullpadding = height-heigthCartButton;
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: Default.padding*.5),
       width: double.infinity,
+      height: height,
       decoration: BoxDecoration(
         color: Theme.of(context).brightness==Brightness.light?AppColors.white:AppColors.onSurface,
         borderRadius: BorderRadius.circular(Default.radius)
@@ -80,12 +82,12 @@ class DeliveryAppNavigationBar extends StatelessWidget {
           ),
           Material(
             color: AppColors.purple,
-            borderRadius: BorderRadius.circular(55/2),
-            clipBehavior: Clip.antiAlias, 
+            borderRadius: BorderRadius.circular(heigthCartButton/2),
+            clipBehavior: Clip.antiAlias,
             child: InkWell(
               onTap: ()=>onIndexSelected(2),
               child: const Padding(
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsets.all(fullpadding*.5),
                 child: Icon(Icons.shopping_basket_sharp, color: AppColors.white, size: 35),
               ),
             )
@@ -96,7 +98,13 @@ class DeliveryAppNavigationBar extends StatelessWidget {
           ),
           IconButton(
             onPressed: ()=>onIndexSelected(4),
-            icon: const CircleAvatar(
+            icon: Obx(
+              (){
+                final user = controller.user.value;
+                return user == null?const SizedBox.shrink(): CircleAvatar(
+                  backgroundImage: AssetImage(user.image),
+                );
+              }
             ),
           )
         ],

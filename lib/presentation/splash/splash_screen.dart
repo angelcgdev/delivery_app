@@ -1,30 +1,11 @@
-import 'package:delivery_app/presentation/login/login_screen.dart';
 import 'package:delivery_app/presentation/logo.dart';
+import 'package:delivery_app/presentation/splash/splash_controller.dart';
 import 'package:delivery_app/presentation/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends GetWidget<SplashController> {
   const SplashScreen({Key? key}) : super(key: key);
-
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-
-
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(const Duration(milliseconds: 2000), (){
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (_)=> const LoginScreen()
-        ),
-      );
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -9,9 +9,15 @@ class AppColors {
   static const white = Color.fromRGBO(255, 255, 255, 1);
   static const onSurface = Color.fromRGBO(48, 55, 72, 1);
 }
+class AppColorsDark {
+  static const purple = Color.fromRGBO(81, 23, 172, 1);
+  static const green = Color.fromRGBO(32, 208, 196, 1);
+  static const background = Color.fromRGBO(23, 25, 26, 1);
+  static const onSurface = Color.fromRGBO(36, 38, 39, 1);
+}
 
 class Default {
-  static const padding = 20.0;
+  static const padding = 15.0;
   static const radius = 10.0;
 }
 
@@ -51,6 +57,15 @@ class AppTheme {
       TargetPlatform.android: ZoomPageTransitionsBuilder(),
   });
 
+  static final _elevatedButtonTheme = ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        elevation: 0,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(Default.radius)),
+        ),
+      )
+    );
+
 
 
   static final lightTheme = ThemeData(
@@ -63,17 +78,21 @@ class AppTheme {
     ),
     colorScheme: ThemeData.light().colorScheme.copyWith(
       primary: AppColors.purple,
-      secondary: AppColors.green
+      secondary: AppColors.green,
+      background: AppColors.white,
+      onBackground: Colors.black,
+      shadow: AppColors.lightShadow,
     ),
     textTheme: GoogleFonts.poppinsTextTheme().apply(
       bodyColor: AppColors.purple,
-      displayColor: AppColors.purple
+      displayColor: AppColors.purple,
     ),
     inputDecorationTheme: InputDecorationTheme(
       focusedBorder: _defaultBorder,
       enabledBorder: _defaultBorder.copyWith(borderSide: _defaultBorder.borderSide.copyWith(color: AppColors.lightShadow)),
       prefixIconColor: AppColors.purple,
     ),
+    elevatedButtonTheme: _elevatedButtonTheme,
     cardTheme: _defaultCardTheme.copyWith(shadowColor: AppColors.lightShadow),
     toggleableActiveColor: AppColors.purple,
     disabledColor: AppColors.lightShadow,
@@ -89,7 +108,9 @@ class AppTheme {
     scaffoldBackgroundColor: Colors.black,
     colorScheme: ThemeData.dark().colorScheme.copyWith(
       primary: AppColors.purple,
-      secondary: AppColors.green
+      secondary: AppColors.green,
+      background: Colors.black,
+      shadow: AppColors.lightShadow
     ),
     textTheme: GoogleFonts.poppinsTextTheme().apply(
       bodyColor: AppColors.green,
@@ -105,7 +126,8 @@ class AppTheme {
         color: AppColors.white
       )
     ),
-    cardTheme:_defaultCardTheme.copyWith(color: AppColors.onSurface),
+    elevatedButtonTheme: _elevatedButtonTheme,
+    cardTheme:_defaultCardTheme.copyWith(color: AppColorsDark.onSurface),
     toggleableActiveColor: AppColors.green,
     disabledColor: AppColors.shadow,
     pageTransitionsTheme: _pageTransitionsTheme

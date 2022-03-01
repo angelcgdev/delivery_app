@@ -1,7 +1,9 @@
-import 'package:delivery_app/presentation/splash/splash_screen.dart';
+import 'package:delivery_app/presentation/main_binding.dart';
+import 'package:delivery_app/presentation/routes/delivery_navigation.dart';
 import 'package:delivery_app/presentation/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,11 +18,14 @@ class MyApp extends StatelessWidget {
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
       ),
-      child: MaterialApp(
+      child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
-        home: const SplashScreen(),
+        themeMode: ThemeMode.system,
+        initialBinding: MainBinding(),
+        initialRoute: DeliveryRoutes.splash,
+        getPages: DeliveryPages.pages,
       ),
     );
   }

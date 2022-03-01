@@ -1,13 +1,27 @@
-import 'package:delivery_app/presentation/home/home_screen.dart';
+import 'package:delivery_app/presentation/login/login_controller.dart';
 import 'package:delivery_app/presentation/logo.dart';
+import 'package:delivery_app/presentation/routes/delivery_navigation.dart';
 import 'package:delivery_app/presentation/theme.dart';
+import 'package:delivery_app/presentation/widgets/default_button.dart';
+import 'package:delivery_app/presentation/widgets/loading_overlay.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends GetWidget<LoginController> {
   const LoginScreen({Key? key}) : super(key: key);
+
+  void login(LoadingOverlay overlay)async{
+    final result = await overlay.during(controller.login());
+    if(result){
+      Get.offAllNamed(DeliveryRoutes.home);
+    }else{
+      Get.snackbar('Error', 'Login incorrectr');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final overlay = LoadingOverlay.of(context);
     return Scaffold(
       body: Column(
         children: [
@@ -54,8 +68,9 @@ class LoginScreen extends StatelessWidget {
                         padding: const EdgeInsets.only(top: 20, bottom: 7),
                         child: Text('Username ', style: Theme.of(context).textTheme.caption?.copyWith(fontWeight: FontWeight.bold)),
                       ),
-                      const TextField(
-                        decoration: InputDecoration(
+                      TextField(
+                        controller: controller.usernameTextController,
+                        decoration: const InputDecoration(
                           prefixIcon: Icon(Icons.person_outline),
                           hintText: 'username'
                         ),
@@ -64,21 +79,19 @@ class LoginScreen extends StatelessWidget {
                         padding: const EdgeInsets.only(top: 20, bottom: 7),
                         child: Text('Password ', style: Theme.of(context).textTheme.caption?.copyWith(fontWeight: FontWeight.bold)),
                       ),
-                      const TextField(
-                        decoration: InputDecoration(
+                      TextField(
+                        controller: controller.passwordTextController,
+                        decoration: const InputDecoration(
                           prefixIcon: Icon(Icons.lock_outline),
                           hintText: '*******'
                         ),
                       ),
                       const SizedBox(height: 20),
                       const SizedBox(height: 20),
-                      DefaultBotton(label: 'Login', opTap: (){
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (_)=> const HomeScreen()
-                          )
-                        );
-                      })
+                      DefaultBotton(
+                        label: 'Login',
+                        opTap: ()=>login(overlay),
+                      )
                     ],
                   ),
                 ),
@@ -91,35 +104,3 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-class DefaultBotton extends StatelessWidget {
-  const DefaultBotton({
-    Key? key,
-    required this.label,
-    required this.opTap
-  }) : super(key: key);
-
-  final String label;
-  final GestureTapCallback opTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: opTap,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(Default.radius),
-          gradient: const LinearGradient(
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-            colors: appGradienst
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Text(label, style: const TextStyle(color: AppColors.white, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
-        ),
-        width: double.infinity,
-      ),
-    );
-  }
-}
