@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
-        themeMode: ThemeMode.system,
+        // themeMode: ThemeMode.system,
         initialBinding: MainBinding(),
         initialRoute: DeliveryRoutes.splash,
         getPages: DeliveryPages.pages,

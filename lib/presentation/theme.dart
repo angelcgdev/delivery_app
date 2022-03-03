@@ -19,6 +19,7 @@ class AppColorsDark {
 class Default {
   static const padding = 15.0;
   static const radius = 10.0;
+  static const duration = Duration(milliseconds: 300);
 }
 
 const appGradienst = [
@@ -48,6 +49,7 @@ class AppTheme {
   static final _defaultCardTheme = CardTheme(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Default.radius)),
       clipBehavior: Clip.antiAlias,
+      margin: const EdgeInsets.symmetric(horizontal: Default.padding),
       elevation: 4,
   );
 
@@ -82,6 +84,8 @@ class AppTheme {
       background: AppColors.white,
       onBackground: Colors.black,
       shadow: AppColors.lightShadow,
+      error: Colors.red,
+      onError: Colors.white
     ),
     textTheme: GoogleFonts.poppinsTextTheme().apply(
       bodyColor: AppColors.purple,
@@ -110,7 +114,9 @@ class AppTheme {
       primary: AppColors.purple,
       secondary: AppColors.green,
       background: Colors.black,
-      shadow: AppColors.lightShadow
+      shadow: AppColors.lightShadow,
+      error: Colors.red,
+      onError: Colors.white
     ),
     textTheme: GoogleFonts.poppinsTextTheme().apply(
       bodyColor: AppColors.green,

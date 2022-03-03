@@ -2,7 +2,6 @@ import 'package:delivery_app/presentation/login/login_controller.dart';
 import 'package:delivery_app/presentation/logo.dart';
 import 'package:delivery_app/presentation/routes/delivery_navigation.dart';
 import 'package:delivery_app/presentation/theme.dart';
-import 'package:delivery_app/presentation/widgets/default_button.dart';
 import 'package:delivery_app/presentation/widgets/loading_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,7 +14,7 @@ class LoginScreen extends GetWidget<LoginController> {
     if(result){
       Get.offAllNamed(DeliveryRoutes.home);
     }else{
-      Get.snackbar('Error', 'Login incorrectr');
+      Get.snackbar('Error', 'Login incorrect');
     }
   }
 
@@ -34,12 +33,7 @@ class LoginScreen extends GetWidget<LoginController> {
                   bottom: Logo.sizeLogo*.5,
                   child: Container(
                     decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                        stops: [.1, .9],
-                        colors: appGradienst
-                      ),
+                      color: AppColors.purple
                     ),
                   ),
                 ),
@@ -88,9 +82,12 @@ class LoginScreen extends GetWidget<LoginController> {
                       ),
                       const SizedBox(height: 20),
                       const SizedBox(height: 20),
-                      DefaultBotton(
-                        label: 'Login',
-                        opTap: ()=>login(overlay),
+                      ElevatedButton(
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(vertical: Default.padding),
+                          child: Text('Login'),
+                        ),
+                        onPressed: ()=>login(overlay),
                       )
                     ],
                   ),

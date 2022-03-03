@@ -2,7 +2,6 @@ import 'package:delivery_app/data/datasource/exception/auth_exception.dart';
 import 'package:delivery_app/domain/repository/login_api_repository.dart';
 import 'package:delivery_app/domain/repository/local_storage_reapository_interface.dart';
 import 'package:delivery_app/domain/request/login_request.dart';
-import 'package:delivery_app/domain/response/login_response.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -20,8 +19,8 @@ class LoginController extends GetxController {
   final passwordTextController = TextEditingController();
 
   Future<bool> login() async{
-    final username = usernameTextController.text;
-    final password = passwordTextController.text;
+    final username = usernameTextController.text.trim();
+    final password = passwordTextController.text.trim();
     try {
       final loginResponse = await apiReapositoryInterface.login(
         LoginRequest(username, password),
