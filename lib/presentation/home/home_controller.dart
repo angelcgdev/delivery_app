@@ -22,8 +22,6 @@ class HomeController extends GetxController{
   void loadUser() {
     localReapositoryInterface.getUser().then((value) {
       user(value);
-      final test = value?.name;
-      print('home controller=======>$test');
     });
   }
 

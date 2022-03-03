@@ -1,7 +1,8 @@
+import 'package:delivery_app/presentation/home/cart/cart_controller.dart';
 import 'package:delivery_app/presentation/home/cart/cart_screen.dart';
 import 'package:delivery_app/presentation/home/favorites/car_screen.dart';
 import 'package:delivery_app/presentation/home/home_controller.dart';
-import 'package:delivery_app/presentation/home/products/products_scrren.dart';
+import 'package:delivery_app/presentation/home/products/products_screen.dart';
 import 'package:delivery_app/presentation/home/profile/profile_screen.dart';
 import 'package:delivery_app/presentation/theme.dart';
 import 'package:flutter/material.dart';
@@ -9,19 +10,18 @@ import 'package:get/get.dart';
 
 class HomeScreen extends GetWidget<HomeController> {
   const HomeScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
+      body: Column(
         children: [
-          Positioned.fill(
+          Expanded(
             child: Obx(
               ()=> IndexedStack(
                 index: controller.indexSelected.value,
                 children: [
-                  const ProductsScreen(),
-                  const ProductsScreen(),
+                  ProductsScreen(),
+                  ProductsScreen(),
                   CartScreen(onShopping: (){
                     controller.updateIndexSelected(0);
                   }),
@@ -31,17 +31,12 @@ class HomeScreen extends GetWidget<HomeController> {
               ),
             ),
           ),
-          Positioned(
-            right: Default.padding,
-            left: Default.padding,
-            bottom: Default.padding,
-            child: Obx(
-              ()=> DeliveryAppNavigationBar(
-                index: controller.indexSelected.value,
-                onIndexSelected: (index){
-                  controller.updateIndexSelected(index);
-                },
-              ),
+          Obx(
+            ()=> DeliveryAppNavigationBar(
+              index: controller.indexSelected.value,
+              onIndexSelected: (index){
+                controller.updateIndexSelected(index);
+              },
             ),
           )
         ],
@@ -56,12 +51,14 @@ class DeliveryAppNavigationBar extends StatelessWidget {
   final int index;
   final void Function(int details) onIndexSelected;
   final controller = Get.find<HomeController>();  
+  final cardController = Get.find<CartController>();
   static const height = 75.0;
   static  const heigthCartButton = 55;
   static  const fullpadding = height-heigthCartButton;
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.only(left: Default.padding, top: Default.padding*.5, right: Default.padding, bottom: Default.padding),
       padding: const EdgeInsets.symmetric(vertical: Default.padding*.5),
       width: double.infinity,
       height: height,
@@ -80,17 +77,41 @@ class DeliveryAppNavigationBar extends StatelessWidget {
             icon: Icons.store_outlined,
             onPressed: ()=>onIndexSelected(1),
           ),
-          Material(
-            color: AppColors.purple,
-            borderRadius: BorderRadius.circular(heigthCartButton/2),
-            clipBehavior: Clip.antiAlias,
-            child: InkWell(
-              onTap: ()=>onIndexSelected(2),
-              child: const Padding(
-                padding: EdgeInsets.all(fullpadding*.5),
-                child: Icon(Icons.shopping_basket_sharp, color: AppColors.white, size: 35),
+          Stack(
+            children: [
+              Material(
+                color: AppColors.purple,
+                borderRadius: BorderRadius.circular(heigthCartButton/2),
+                clipBehavior: Clip.antiAlias,
+                child: InkWell(
+                  onTap: ()=>onIndexSelected(2),
+                  child: const Padding(
+                    padding: EdgeInsets.all(fullpadding*.5),
+                    child: Icon(Icons.shopping_basket_sharp, color: AppColors.white, size: 35),
+                  ),
+                )
+              ),              
+              Positioned(
+                right: 0,
+                child: Obx(
+                  (){
+                    return AnimatedSwitcher(
+                      duration: Default.duration,
+                      child: cardController.totalItems.value == 0?const SizedBox.shrink():CircleAvatar(
+                        radius: 10,
+                        backgroundColor: Colors.amber,
+                        child: Text(cardController.totalItems.value.toString(), style: const TextStyle(color: Colors.white,)),
+                      ),
+                      transitionBuilder: (widget, animation){
+                        return ScaleTransition(
+                          scale: animation,
+                          child: widget,
+                        );
+                      },
+                    );
+                })
               ),
-            )
+            ],
           ),
           _NavBarItem(
             icon: Icons.favorite_border,

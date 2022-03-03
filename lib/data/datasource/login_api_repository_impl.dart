@@ -19,7 +19,6 @@ class LoginApiRepositoryImpl extends LoginApiReapositoryInterface{
   Future<LoginResponse> login(LoginRequest login) async{
     await Future.delayed(const Duration(seconds: 2));
     if(login.username == 'johndoe@mail.com' && login.password == '123456') {
-      print('entrado==========>');
       return LoginResponse(
         'aaaaaa',
         User(
@@ -30,7 +29,6 @@ class LoginApiRepositoryImpl extends LoginApiReapositoryInterface{
       );
     }
     else if(login.username == 'janedoe@mail.com' && login.password == '123456') {
-      print('entrado2==========>');
       return LoginResponse(
         'bbbbbb', 
         User(

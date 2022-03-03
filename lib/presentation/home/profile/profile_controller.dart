@@ -22,7 +22,6 @@ class ProfileController extends GetxController {
 
   void loadUser() {  
     localReapositoryInterface.getUser().then((value) {
-      print('profile controller======>${value?.name}');
       user(value);
     });
   }

@@ -1,8 +1,6 @@
 import 'package:delivery_app/domain/repository/login_api_repository.dart';
 import 'package:delivery_app/domain/repository/local_storage_reapository_interface.dart';
 import 'package:delivery_app/presentation/routes/delivery_navigation.dart';
-import 'package:delivery_app/presentation/theme.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SplashController extends GetxController {
@@ -17,7 +15,7 @@ class SplashController extends GetxController {
 
   @override
   void onInit() {
-    validteTheme();
+    validateTheme();
     super.onInit();
   }
 
@@ -40,12 +38,8 @@ class SplashController extends GetxController {
 
   }
 
-  void validteTheme() async{
-    late ThemeMode test;
+  void validateTheme() async{
     final themeMode = await localReapositoryInterface.getTheme();
-    print('THEME====================>${themeMode.name}');
-    if(themeMode != ThemeMode.system){
-      Get.changeTheme(Get.isDarkMode ? AppTheme.darkTheme : AppTheme.lightTheme);
-    }
+    Get.changeThemeMode(themeMode);
   }
 }

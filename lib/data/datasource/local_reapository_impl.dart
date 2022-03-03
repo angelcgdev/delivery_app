@@ -34,7 +34,6 @@ class LocalReapositoryImpl with LocalReapositoryInterface {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.reload();
     final name = sharedPreferences.getString(_prefName)!;
-    print('local reapository impl======>$name');
     final userName = sharedPreferences.getString(_prefUsername)!;
     final image = sharedPreferences.getString(_prefImage)!;
     final user = User(

@@ -11,11 +11,7 @@ class SplashScreen extends GetWidget<SplashController> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: appGradienst
-          )
+          color: AppColors.purple
         ),
         child: SizedBox.expand(
           child: Column(                      
